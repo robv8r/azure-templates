@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "storageAccountNameSuffix": {
+      "type": "int",
+      "defaultValue": "1",
+      "metadata": {
+        "description": "The numeric ordinal to add to the end of the name of the storage account name."
+      }
+    }
+  },
+  "variables": {
+    "storageAccountName": "[toLower(concat(replace(resourceGroup().name,'-',''), 'stor', padLeft(parameters('storageAccountNameSuffix'), 2, '0')))]"
+    },
+  "resources": [],
+  "outputs": {
+    "storageAccountInfo": {
+      "value": "[reference(concat('Microsoft.Storage/storageAccounts/', variables('storageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0])]",
+      "type" : "object"
+    }
+  }
+}
